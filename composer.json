@@ -1,0 +1,27 @@
+{
+    "name": "continuum/exceptions",
+    "description": "Exception handleLaravel r and helpful exception classes",
+    "require": {
+        "bugsnag/bugsnag-laravel": "1.*"
+    },
+    "require-dev": {
+        "fzaninotto/faker": "~1.4",
+        "mockery/mockery": "0.9.*",
+        "phpunit/phpunit": "~4.0",
+        "symfony/css-selector": "2.8.*|3.0.*",
+        "symfony/dom-crawler": "2.8.*|3.0.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Continuum\\Exceptions\\": "src/"
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "David Bonner",
+            "email": "david@continuuminteractive.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
