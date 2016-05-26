@@ -105,14 +105,14 @@ class LaravelExceptionHandler extends ExceptionHandler
             return redirect()->back()->with('errors', lang('exceptions.token_redirect'));
         }
 
-        $e = FlattenException::create($e);
-        $status = $e->getStatusCode();
+        $exception = FlattenException::create($e);
+        $status = $exception->getStatusCode();
 
         if (view()->exists("errors.{$status}")) {
             try {
-                $payload = ['exception' => $e, 'log_id' => $this->log_id];
+                $payload = ['exception' => $exception, 'log_id' => $this->log_id];
 
-                return response()->view("errors.{$status}", $payload, $status, $e->getHeaders());
+                return response()->view("errors.{$status}", $payload, $status, $exception->getHeaders());
             } catch (Exception $e) {
                 //...
             }
@@ -152,7 +152,7 @@ class LaravelExceptionHandler extends ExceptionHandler
      */
     protected function setupBugsnag(Exception $e)
     {
-        app('bugsnag')
+        app('exceptions.bugsnag')
             ->setType(config('exceptions.app_type', 'N/A'))
             ->setAppVersion(config('exceptions.app_version', 'N/A'))
             ->setBeforeNotifyFunction(function ($error) {
