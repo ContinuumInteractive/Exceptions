@@ -2,8 +2,12 @@
 
 namespace Continuum\Exceptions\Handlers;
 
+use Exception;
+use Psr\Log\LoggerInterface;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Session\TokenMismatchException;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\Debug\Exception\FlattenException;
+use Bugsnag\BugsnagLaravel\BugsnagExceptionHandler as ExceptionHandler;
 
 class LaravelExceptionHandler extends ExceptionHandler
 {
@@ -109,7 +113,7 @@ class LaravelExceptionHandler extends ExceptionHandler
                 $payload = ['exception' => $e, 'log_id' => $this->log_id];
 
                 return response()->view("errors.{$status}", $payload, $status, $e->getHeaders());
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 //...
             }
         }
