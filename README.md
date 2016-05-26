@@ -1,5 +1,7 @@
 # Continuum Interactive Exception Handler
 
+[![StyleCI](https://styleci.io/repos/XZnx36/shield)](https://styleci.io/repos/XZnx36)
+
 Self-contained package to quickly hook bugsnag up to Laravel for exception handling.
 
 The package also contains helpful exception classes for various types of exceptions and errors.
