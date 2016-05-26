@@ -8,7 +8,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 class LaravelExceptionHandler extends ExceptionHandler
 {
     /**
-     * Generated Log ID for users and linked to BugSnag
+     * Generated Log ID for users and linked to BugSnag.
      *
      * @var string
      */
@@ -39,7 +39,7 @@ class LaravelExceptionHandler extends ExceptionHandler
     }
 
     /**
-     * Generate a Log ID on each request
+     * Generate a Log ID on each request.
      *
      * @return void
      */
@@ -90,7 +90,7 @@ class LaravelExceptionHandler extends ExceptionHandler
     }
 
     /**
-     * Compile the new final excpetion response and print
+     * Compile the new final excpetion response and print.
      *
      * @param  Exception $e
      * @return Illuminate\Http\Response
@@ -107,6 +107,7 @@ class LaravelExceptionHandler extends ExceptionHandler
         if (view()->exists("errors.{$status}")) {
             try {
                 $payload = ['exception' => $e, 'log_id' => $this->log_id];
+
                 return response()->view("errors.{$status}", $payload, $status, $e->getHeaders());
             } catch (\Exception $e) {
                 //...
@@ -117,21 +118,22 @@ class LaravelExceptionHandler extends ExceptionHandler
     }
 
     /**
-     * Should the app redirect on a token mismatch exception
+     * Should the app redirect on a token mismatch exception.
      *
      * @param  Exception $e
-     * @return boolean
+     * @return bool
      */
     protected function shouldRedirectTokenMismatch(Exception $e)
     {
         $redirect = config('exceptions.token_redirect', false);
-        return ($redirect && $e instanceof TokenMismatchException);
+
+        return $redirect && $e instanceof TokenMismatchException;
     }
 
     /**
-     * Check if the app should report or print
+     * Check if the app should report or print.
      *
-     * @return boolean
+     * @return bool
      */
     protected function shouldNotReport()
     {
@@ -139,7 +141,7 @@ class LaravelExceptionHandler extends ExceptionHandler
     }
 
     /**
-     * Setup the bugsnag report
+     * Setup the bugsnag report.
      *
      * @param  Exception $e
      * @return void
@@ -152,25 +154,25 @@ class LaravelExceptionHandler extends ExceptionHandler
             ->setBeforeNotifyFunction(function ($error) {
                 $error->setMetaData([
                     'user' => $this->getUser(),
-                    'ci_sessions' => $this->getCISession()
+                    'ci_sessions' => $this->getCISession(),
                 ]);
             });
     }
 
     /**
-     * Get additional session data
+     * Get additional session data.
      *
      * @return array
      */
     protected function getCISession()
     {
         return [
-            'log_id' => $this->log_id
+            'log_id' => $this->log_id,
         ];
     }
 
     /**
-     * Get the user
+     * Get the user.
      *
      * @return array
      */
