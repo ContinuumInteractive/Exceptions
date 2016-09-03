@@ -3,7 +3,7 @@
     "description": "Exception handler and helpful exception classes",
     "require": {
         "laravel/framework": "5.2.*|5.3.*",
-        "bugsnag/bugsnag-laravel": "1.*"
+        "bugsnag/bugsnag-laravel": "^2.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
