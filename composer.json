@@ -1,8 +1,8 @@
 {
     "name": "continuum/exceptions",
-    "description": "Exception handleLaravel r and helpful exception classes",
+    "description": "Exception handler and helpful exception classes",
     "require": {
-        "laravel/framework": "5.2.*",
+        "laravel/framework": "5.2.*|5.3.*",
         "bugsnag/bugsnag-laravel": "1.*"
     },
     "require-dev": {
