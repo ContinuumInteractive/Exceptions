@@ -3,7 +3,7 @@
 namespace Continuum\Exceptions;
 
 use Illuminate\Support\ServiceProvider;
-use Bugsnag\BugsnagLaravel\BugsnagLaravelServiceProvider;
+use Bugsnag\BugsnagLaravel\BugsnagServiceProvider;
 
 class ExceptionServiceProvider extends ServiceProvider
 {
@@ -71,10 +71,10 @@ class ExceptionServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->register(BugsnagLaravelServiceProvider::class);
+        $this->app->register(BugsnagServiceProvider::class);
 
-        $this->app->bind('exceptions.bugsnag', function ($app) {
-            return $app['bugsnag'];
-        });
+        // $this->app->bind('exceptions.bugsnag', function ($app) {
+        //     return $app['bugsnag'];
+        // });
     }
 }

@@ -4,38 +4,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | App Type
-    |--------------------------------------------------------------------------
-    */
-
-    'app_type' => 'Laravel',
-
-    /*
-    |--------------------------------------------------------------------------
-    | App Version
-    |--------------------------------------------------------------------------
-    */
-
-    'app_version' => 'N/A',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Redirect token errors
-    |--------------------------------------------------------------------------
-    |
-    | If enabled, any TokenMismatchExceptions will be redirected and an error
-    | will be flashed to the session
-    |
-    | This can be useful for production environments where the session length
-    | has to be quite short. The user experience is bettered through
-    | redirection and error messages.
-    |
-    */
-
-    'token_redirect' => false,
-
-    /*
-    |--------------------------------------------------------------------------
     | API Key
     |--------------------------------------------------------------------------
     |
@@ -45,7 +13,8 @@ return [
     | which should receive your application's uncaught exceptions.
     |
     */
-    'api_key' => env('EXCEPTION_BUGSNAG_API_KEY'),
+
+    'api_key' => env('BUGSNAG_API_KEY', ''),
 
     /*
     |--------------------------------------------------------------------------
@@ -57,7 +26,10 @@ return [
     | Example: array('development', 'production')
     |
     */
-    'notify_release_stages' => ['production', 'staging'],
+
+    'notify_release_stages' => empty(env('BUGSNAG_NOTIFY_RELEASE_STAGES'))
+        ? null
+        : explode(',', str_replace(' ', '', env('BUGSNAG_NOTIFY_RELEASE_STAGES'))),
 
     /*
     |--------------------------------------------------------------------------
@@ -69,7 +41,8 @@ return [
     | this should be the URL to your Bugsnag instance.
     |
     */
-    'endpoint' => env('EXCEPTION_BUGSNAG_ENDPOINT', null),
+
+    'endpoint' => env('BUGSNAG_ENDPOINT', null),
 
     /*
     |--------------------------------------------------------------------------
@@ -81,29 +54,80 @@ return [
     | contain these strings will be filtered.
     |
     */
-    'filters' => env('EXCEPTION_BUGSNAG_FILTERS', ['password']),
+
+    'filters' => empty(env('BUGSNAG_FILTERS')) ? ['password'] : explode(',', str_replace(' ', '', env('BUGSNAG_FILTERS'))),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Callbacks
+    |--------------------------------------------------------------------------
+    |
+    | Enable this if you'd like us to enable our default set of notification
+    | callbacks. These add things like the cookie information and session
+    | details to the error to be sent to Bugsnag.
+    |
+    | If you'd like to add your own callbacks, you can call the
+    | Bugsnag::registerCallback method from the boot method of your app
+    | service provider.
+    |
+    */
+
+    'callbacks' => env('BUGSNAG_CALLBACKS', true),
+
+    /*
+    |--------------------------------------------------------------------------
+    | User
+    |--------------------------------------------------------------------------
+    |
+    | Enable this if you'd like us to set the current user logged in via
+    | Laravel's authentication system.
+    |
+    | If you'd like to add your own user resolver, you can call the
+    | Bugsnag::registerUserResolver method from the boot method of your app
+    | service provider.
+    |
+    */
+
+    'user' => env('BUGSNAG_USER', true),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Query
+    |--------------------------------------------------------------------------
+    |
+    | Enable this if you'd like us to automatically record all queries executed
+    | as breadcrumbs.
+    |
+    */
+
+    'query' => env('BUGSNAG_QUERY', true),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Bindings
+    |--------------------------------------------------------------------------
+    |
+    | Enable this if you'd like us to include the query bindings in our query
+    | breadcrumbs.
+    |
+    */
+
+    'bindings' => env('BUGSNAG_QUERY_BINDINGS', false),
 
     /*
     |--------------------------------------------------------------------------
     | Proxy
     |--------------------------------------------------------------------------
     |
-    | If your server is behind a proxy server, you can configure this as well.
-    | Other than the host, none of these settings are mandatory.
-    |
-    | Note: Proxy configuration is only possible if the PHP cURL extension
-    | is installed.
-    |
-    | Example:
-    |
-    |     'proxy' => array(
-    |         'host'     => 'bugsnag.com',
-    |         'port'     => 42,
-    |         'user'     => 'username',
-    |         'password' => 'password123'
-    |     )
+    | This is where you can set the proxy settings you'd like us to use when
+    | communicating with Bugsnag when reporting errors.
     |
     */
-    'proxy' => env('EXCEPTION_BUGSNAG_PROXY', null),
+
+    'proxy' => array_filter([
+        'http' => env('HTTP_PROXY'),
+        'https' => env('HTTPS_PROXY'),
+        'no' => empty(env('NO_PROXY')) ? null : explode(',', str_replace(' ', '', env('NO_PROXY'))),
+    ]),
 
 ];
